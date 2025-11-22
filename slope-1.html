@@ -39,9 +39,9 @@
 		}
 		
 	    #unity-loading-bar { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: block }
-		#unity-logo {width: 154px; height: 130px; background: url('TemplateData/unity-logo-dark.png') no-repeat center }
-        #unity-progress-bar-empty { width: 141px; height: 18px; margin-top: 10px; background: url('TemplateData/progress-bar-empty-dark.png') no-repeat center }
-        #unity-progress-bar-full { width: 0%; height: 18px; margin-top: 10px; background: url('TemplateData/progress-bar-full-dark.png') no-repeat center }
+		#unity-logo {width: 154px; height: 130px; background: url('templatedata/unity-logo-dark.png') no-repeat center }
+        #unity-progress-bar-empty { width: 141px; height: 18px; margin-top: 10px; background: url('templatedata/progress-bar-empty-dark.png') no-repeat center }
+        #unity-progress-bar-full { width: 0%; height: 18px; margin-top: 10px; background: url('templatedata/progress-bar-full-dark.png') no-repeat center }
 		
 	</style>
 <script src="https://img.y8.com/prevent-keys.js"></script></head>
@@ -55,16 +55,16 @@
           <div id="unity-progress-bar-full"></div>
           </div>
 
-		<script src="Build/output_2022_version.loader.js"></script>
+		<script src="build/output_2022_version.loader.js"></script>
 		<script>
 			var loadingBar = document.querySelector("#unity-loading-bar");
 			var progressBarFull = document.querySelector("#unity-progress-bar-full");
 			var canvas = document.querySelector("#unity-canvas");
 			var logo = document.querySelector("#unity-logo");
 			var config = {
-				dataUrl: "Build/output_2022_version.data.gz",
-				frameworkUrl: "Build/output_2022_version.framework.js.gz",
-				codeUrl: "Build/output_2022_version.wasm.gz",
+				dataUrl: "build/output_2022_version.data.gz",
+				frameworkUrl: "build/output_2022_version.framework.js.gz",
+				codeUrl: "build/output_2022_version.wasm.gz",
 				streamingAssetsUrl: "StreamingAssets",
 				companyName: "Y8",
 				productName: "Slope",
@@ -118,6 +118,21 @@
 				myGameInstance = instance;
 				canvas = instance.Module.canvas;
 				onResize();
+			}).catch(function (e) {
+				loadingBar.style.display = 'none';
+				var msg = document.createElement('div');
+				msg.style.color = '#fff';
+				msg.style.fontFamily = 'system-ui, Arial, sans-serif';
+				msg.style.textAlign = 'center';
+				msg.style.marginTop = '20px';
+				msg.innerText = 'Game files are incomplete (missing data file) or blocked by server compression settings. Attempting fallback...';
+				canvas.parentElement.appendChild(msg);
+				var iframe = document.createElement('iframe');
+				iframe.src = 'https://y8.com/games/slope';
+				iframe.style.border = '0';
+				iframe.width = canvas.style.width || '960';
+				iframe.height = canvas.style.height || '600';
+				canvas.parentElement.appendChild(iframe);
 			});
 			window.addEventListener('resize', onResize);
 			onResize();
@@ -130,7 +145,7 @@
 				document.getElementsByTagName('head')[0].appendChild(meta);
 			}
 		</script>
-		<script type="text/javascript" src="TemplateData/gameBreakBeta.js"></script>
+		<script type="text/javascript" src="templatedata/gameBreakBeta.js"></script>
 	</div>
 </body>
 
